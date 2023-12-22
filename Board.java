@@ -6,7 +6,7 @@ public class Board{
     public Board(){
         board = new int[3][3];
     }
-    public boolean isWon(){//should this be void?
+    public boolean isWon(){
         for(int i= 0;i<board.length;i++){//now works I think
             if(board[i][0]!=0&&board[i][0]==board[i][1]&&board[i][1]==board[i][2]){
                 isTaken = true;
@@ -69,9 +69,6 @@ public class Board{
         }
             System.out.print("     ");
 
-    }
-    public void makeMove(int a, int b,int state){
-        board[b][a] = state;//note switched variables
     }
     public boolean getTaken(int a, int b){//checks if spot is taken
         if(this.board[b][a]!=0) return false;
