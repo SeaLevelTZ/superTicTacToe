@@ -14,29 +14,24 @@ public class BigBoard {
     
     }
     
-    public void isWon(){
-        for(int i= 0;i<largeBoard.length;i++){//now works I think
-            if(largeBoard[i][0].isWon()==true&&largeBoard[i][1].isWon()==true&&largeBoard[i][2].isWon()==true){
+    public void isWon(){//issue hopefully fixed needs testing
+        for(int i= 0;i<largeBoard.length;i++){
+            if(largeBoard[i][0].isWon()==true&&largeBoard[i][1].isWon()==true&&largeBoard[i][2].isWon()==true&&largeBoard[i][0].getWinner()==largeBoard[i][1].getWinner()&&largeBoard[i][1].getWinner()==largeBoard[i][2].getWinner()){
                 finished = true;
                 winner = largeBoard[i][0].getWinner();
             }
         }
-       
         for(int i = 0;i<largeBoard.length;i++){
-            if(largeBoard[0][i].isWon()==true&&largeBoard[1][i].isWon()==true&&largeBoard[2][i].isWon()==true){
+            if(largeBoard[0][i].isWon()==true&&largeBoard[1][i].isWon()==true&&largeBoard[2][i].isWon()==true&&largeBoard[0][i].getWinner()==largeBoard[1][i].getWinner()&&largeBoard[1][i].getWinner()==largeBoard[2][i].getWinner()){
                 finished = true;
                 winner = largeBoard[0][i].getWinner();
             }
         }
-        
-        
-        if(largeBoard[0][0].isWon()==true&&largeBoard[1][1].isWon()==true&&largeBoard[2][2].isWon()==true){
+        if(largeBoard[0][0].isWon()==true&&largeBoard[1][1].isWon()==true&&largeBoard[2][2].isWon()==true&&largeBoard[0][0].getWinner()==largeBoard[1][1].getWinner()&&largeBoard[1][1].getWinner()==largeBoard[2][2].getWinner()){
             finished = true;
             winner = largeBoard[0][0].getWinner();
         }
-    
-    
-        if(largeBoard[0][2].isWon()==true&&largeBoard[1][1].isWon()==true&&largeBoard[2][0].isWon()==true){
+        if(largeBoard[0][2].isWon()==true&&largeBoard[1][1].isWon()==true&&largeBoard[2][0].isWon()==true&&largeBoard[0][2].getWinner()==largeBoard[1][1].getWinner()&&largeBoard[1][1].getWinner()==largeBoard[2][0].getWinner()){
                 finished = true;
                 winner = largeBoard[0][2].getWinner();
         }
@@ -53,12 +48,18 @@ public class BigBoard {
     }
     public static void printBoard(BigBoard b){//need to make this print one line at a time
         for(int c = 0; c < b.largeBoard.length; c++) {
-            System.out.println();
             for(int i = 0; i<3;i++){
                 System.out.println();
                 for(int x = 0; x<3;x++){
                     b.largeBoard[c][x].printLine(i);
                 }
+            }
+            System.out.println();//prints winners in horizontal direction if they are vertical...
+            for(int e = 0;e<3;e++){
+                if(b.getBoard(c,e).getWinner()!=0)
+                System.out.print("W: "+b.getBoard(c,e).getWinner()+"      ");
+                else
+                System.out.print("       ");
             }
         }
         System.out.println();

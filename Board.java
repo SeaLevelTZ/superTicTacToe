@@ -7,7 +7,7 @@ public class Board{
         board = new int[3][3];
     }
     public boolean isWon(){
-        for(int i= 0;i<board.length;i++){//now works I think
+        for(int i= 0;i<board.length;i++){//now works I think but breaks for board stealing
             if(board[i][0]!=0&&board[i][0]==board[i][1]&&board[i][1]==board[i][2]){
                 isTaken = true;
                 wonBy = board[i][0];

@@ -7,7 +7,8 @@ public class Main{
     public static void main(String[]args){
 Scanner scan = new Scanner(System.in);
 BigBoard board = new BigBoard();
-System.out.println("Welcome to SUPER Tic-Tac-Toe! To make a move, enter the coordinates of a corresponding square.");
+System.out.println("Welcome to SUPER Tic-Tac-Toe! To make a move, enter the coordinates of a corresponding square with a space in between.");
+BigBoard.printBoard(board);
 while(board.returnFinished()==false){
     move(scan, board);
     BigBoard.printBoard(board);
@@ -18,18 +19,18 @@ while(board.returnFinished()==false){
 }
 if(board.getDraw()) System.out.println("Its a draw :(");
 else System.out.println("Player " + board.getWinner() + " wins!!!");
-
+System.out.println("Come back later for improvements to the game!");
 
     }
     
     
-    public static void move(Scanner s,BigBoard bo){
-        while(bo.getBoard(coord1, coord2).getFull()==true){
+    public static void move(Scanner s,BigBoard bo){//very rarely just randomly put in wrong number???
+        while(bo.getBoard(coord1, coord2).getFull()){
     coord1 = (int)Math.random()*3;
     coord2 = (int)Math.random()*3;
    }
    System.out.println();
-   System.out.println("Playing in board "+ (coord2+1)+" "+(coord1+1));
+   System.out.println("Playing in board "+ (coord2+1)+", "+(coord1+1));
         System.out.print("Player "+ playerState +", pick a spot: ");
    int[] play = takeNum(s);
    int a = play[0];
@@ -44,15 +45,18 @@ else System.out.println("Player " + board.getWinner() + " wins!!!");
         b = play[1];
     }
     else if(tempArray[b][a]!=0){
-        System.out.print("Spot already taken \nPick another spot: ");
+        System.out.print("Spot already taken \nPick another spot: ");// issue where sometimes it gets stuck saying saying this, can't figure out why
         play = takeNum(s);
         a = play[0];
-        b = play[0];
+        b = play[1];
     }
     }
     tempArray[b][a] = playerState;
     bo.getBoard(coord1,coord2).isWon();
     bo.getBoard(coord1, coord2).isFull();
+    //System.out.println(bo.getBoard(coord1, coord2).isWon());
+    //System.out.println(bo.getBoard(coord1, coord2).getWinner());
+
     coord1 = b;
     coord2 = a;
     }
@@ -63,22 +67,16 @@ else System.out.println("Player " + board.getWinner() + " wins!!!");
         else if(playerState ==2) playerState = 1;
     }
     public static int[] takeNum(Scanner s){
-        String i = s.nextLine();
-        while(i.length()<3){
-            System.out.print("Invalid character. \nEnter integers between 1 and 3: ");
-             i = s.nextLine();
-
-        }
+        String i = enterString(s);
         String a1 = i.substring(0,1);
         String b1 = i.substring(2,3);
         int a = 0;
         int b=0;
         while(isNumeric(a1)==false||isNumeric(b1)==false){
             System.out.print("Invalid character. \nEnter 2 integers between 1 and 3: ");
-             i = s.nextLine();
+            i = enterString(s);
             a1 = i.substring(0,1);
             b1 = i.substring(2,3);
-             
         }
         a = Integer.parseInt(i.substring(0,1));
         b = Integer.parseInt(i.substring(2,3));
@@ -86,5 +84,13 @@ else System.out.println("Player " + board.getWinner() + " wins!!!");
     }
     private static boolean isNumeric(String str){
         return str != null && str.matches("[0-9.]+");
+    }
+    public static String enterString(Scanner s){//necessary to prevent error after entering 3 digit string followed by 1 digit string
+        String i = s.nextLine();
+        while(i.length()<3){
+            System.out.print("Invalid character. \nEnter 2 integers between 1 and 3: ");
+             i = s.nextLine();
+        }
+        return i;
     }
 }
