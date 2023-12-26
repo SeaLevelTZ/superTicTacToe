@@ -37,7 +37,6 @@ public class BigBoard {
         }
             }
     public void isDraw(){
-        //do this later :)
          int count= 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -47,23 +46,25 @@ public class BigBoard {
         if(count==9){ draw = true; finished = true;}
     }
     public static void printBoard(BigBoard b){//need to make this print one line at a time
+       System.out.println("  Current board:");
         for(int c = 0; c < b.largeBoard.length; c++) {
             for(int i = 0; i<3;i++){
                 System.out.println();
                 for(int x = 0; x<3;x++){
-                    b.largeBoard[c][x].printLine(i);
+                    boolean isCurrentBoard = (c==Main.getCurrentBoard()[0]&&x==Main.getCurrentBoard()[1]);
+                    b.largeBoard[c][x].printLine(i, isCurrentBoard);
                 }
             }
-            System.out.println();//prints winners in horizontal direction if they are vertical...
+            System.out.println();
             for(int e = 0;e<3;e++){
                 if(b.getBoard(c,e).getWinner()!=0)
-                System.out.print("W: "+b.getBoard(c,e).getWinner()+"      ");
+                System.out.print("W: "+b.getBoard(c,e).getWinner()+"    ");
                 else
-                System.out.print("       ");
+                System.out.print("        ");
             }
         }
         System.out.println();
-        //prints the whole board when called
+
     }
     public Board getBoard(int one, int two){
         return largeBoard[one][two];

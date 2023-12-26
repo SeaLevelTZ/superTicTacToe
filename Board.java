@@ -13,28 +13,23 @@ public class Board{
                 wonBy = board[i][0];
             }
         }
-       
         for(int i = 0;i<board.length;i++){
             if(board[0][i]!=0&&board[1][i]!=0&& board[0][i]==board[1][i]&&board[1][i]==board[2][i]){
                 isTaken = true;
                 wonBy = board[0][i];
             }
         }
-        
-        
         if(board[0][0]!=0&&board[0][0]==board[1][1]&&board[1][1]==board[2][2]){
             isTaken = true;
             wonBy = board[0][0];
         }
-    
-    
         if(board[0][2]!=0&&board[0][2]==board[1][1]&&board[1][1]==board[2][0]){
                 isTaken = true;
                 wonBy = board[0][2];
         }
         return(isTaken);
     }
-    public boolean isFull(){//should this be void?
+    public boolean isFull(){
         int count = 0;
         for(int c = 0; c < board[0].length; c++) {
             for(int r = 0; r < board.length; r++) {
@@ -50,30 +45,24 @@ public class Board{
         }
         return (full);
     }
-    public void print(){//this method is now irrelevant
-        
-        for(int r=0;r<board.length;r++){
-            System.out.println();
-            for(int c = 0;c<board[r].length;c++){
-                if(board[r][c]==1) System.out.print("X");
-                else if (board[r][c]==2) System.out.print("O");
-                else System.out.print("-");
-            }
-        } 
-    }
-    public void printLine(int a){
-        for(int i = 0; i<3;i++){
+    public void printLine(int a, boolean b){
+        int i=0;
+        for( i = 0; i<3;i++){
            if(board[a][i]==1) System.out.print("X");
                 else if (board[a][i]==2) System.out.print("O");
                 else System.out.print("-"); 
         }
+        if(b){
+            System.out.print(" <   ");
+        }
+        else{
             System.out.print("     ");
-
+        }
     }
-    public boolean getTaken(int a, int b){//checks if spot is taken
+    /*public boolean getTaken(int a, int b){//checks if spot is taken
         if(this.board[b][a]!=0) return false;
         else return true;
-    }
+    } */
     public int[][] getSmallArray(){
         return board;
     }
@@ -82,7 +71,5 @@ public class Board{
     }
     public boolean getFull(){
         return full;
-    }
-    
-    
+    }  
 }

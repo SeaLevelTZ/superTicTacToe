@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 public class Main{
     private static int playerState = 1;
     private static int coord1 = 1;
@@ -8,6 +7,17 @@ public class Main{
 Scanner scan = new Scanner(System.in);
 BigBoard board = new BigBoard();
 System.out.println("Welcome to SUPER Tic-Tac-Toe! To make a move, enter the coordinates of a corresponding square with a space in between.");
+System.out.println("The current small game you are in is indicated by arrows");
+System.out.println("The move you make in the small game indicates which small game the next player must play in.\n");
+System.out.println("The following example board shows the cooresponding coordinates to each square: \n");
+
+for(int i = 1; i<4; i++){
+    for(int x = 1; x<4;x++){
+        System.out.print("("+i+","+x+")"+" ");
+    }
+    System.out.println("\n");
+}
+System.out.println("Have fun!\n");
 BigBoard.printBoard(board);
 while(board.returnFinished()==false){
     move(scan, board);
@@ -20,11 +30,8 @@ while(board.returnFinished()==false){
 if(board.getDraw()) System.out.println("Its a draw :(");
 else System.out.println("Player " + board.getWinner() + " wins!!!");
 System.out.println("Come back later for improvements to the game!");
-
     }
-    
-    
-    public static void move(Scanner s,BigBoard bo){//very rarely just randomly put in wrong number???
+    public static void move(Scanner s,BigBoard bo){
         while(bo.getBoard(coord1, coord2).getFull()){
     coord1 = (int)Math.random()*3;
     coord2 = (int)Math.random()*3;
@@ -45,7 +52,7 @@ System.out.println("Come back later for improvements to the game!");
         b = play[1];
     }
     else if(tempArray[b][a]!=0){
-        System.out.print("Spot already taken \nPick another spot: ");// issue where sometimes it gets stuck saying saying this, can't figure out why
+        System.out.print("Spot already taken \nPick another spot: ");
         play = takeNum(s);
         a = play[0];
         b = play[1];
@@ -54,14 +61,9 @@ System.out.println("Come back later for improvements to the game!");
     tempArray[b][a] = playerState;
     bo.getBoard(coord1,coord2).isWon();
     bo.getBoard(coord1, coord2).isFull();
-    //System.out.println(bo.getBoard(coord1, coord2).isWon());
-    //System.out.println(bo.getBoard(coord1, coord2).getWinner());
-
     coord1 = b;
     coord2 = a;
     }
-
-    
     public static void changeTurn(){
         if(playerState == 1) playerState = 2;
         else if(playerState ==2) playerState = 1;
@@ -92,5 +94,8 @@ System.out.println("Come back later for improvements to the game!");
              i = s.nextLine();
         }
         return i;
+    }
+    public static int[] getCurrentBoard(){
+        return new int[] {coord1,coord2};
     }
 }
