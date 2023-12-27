@@ -3,6 +3,10 @@ public class Main{
     private static int playerState = 1;
     private static int coord1 = 1;
     private static int coord2 = 1;
+    public static String playerName1;
+    public static String playerName2;
+    private static String symbolPlayer1;
+    private static String symbolPlayer2;
     public static void main(String[]args){
 Scanner scan = new Scanner(System.in);
 BigBoard board = new BigBoard();
@@ -17,7 +21,8 @@ for(int i = 1; i<4; i++){
     }
     System.out.println("\n");
 }
-System.out.println("Have fun!\n");
+System.out.println("Have fun!");
+setNames(scan);
 BigBoard.printBoard(board);
 while(board.returnFinished()==false){
     move(scan, board);
@@ -28,7 +33,7 @@ while(board.returnFinished()==false){
 
 }
 if(board.getDraw()) System.out.println("Its a draw :(");
-else System.out.println("Player " + board.getWinner() + " wins!!!");
+else System.out.println(winnerToName(board) + " wins!!!");
 System.out.println("Come back later for improvements to the game!");
     }
     public static void move(Scanner s,BigBoard bo){
@@ -38,7 +43,8 @@ System.out.println("Come back later for improvements to the game!");
    }
    System.out.println();
    System.out.println("Playing in board "+ (coord2+1)+", "+(coord1+1));
-        System.out.print("Player "+ playerState +", pick a spot: ");
+   if(playerState==1) System.out.print(playerName1 +", pick a spot: ");
+   else System.out.print(playerName2 +", pick a spot: ");
    int[] play = takeNum(s);
    int a = play[0];
    int b = play[1];
@@ -98,4 +104,31 @@ System.out.println("Come back later for improvements to the game!");
     public static int[] getCurrentBoard(){
         return new int[] {coord1,coord2};
     }
+    public static void setNames(Scanner s){
+        System.out.print("Player 1, enter your name: ");
+        playerName1 = s.nextLine();
+        System.out.print("Player 1, enter the symbol for use on the board (eg. X or O): ");
+        symbolPlayer1 = s.nextLine();
+        while(symbolPlayer1.length()!=1){
+            System.out.print("The symbol must be 1 character long\nEnter another symbol: ");
+            symbolPlayer1 = s.nextLine();
+        }
+        System.out.print("Player 2, enter your name: ");
+        playerName2 = s.nextLine();
+         System.out.print("Player 2, enter the symbol for use on the board (eg. X or O): ");
+        symbolPlayer2 = s.nextLine();
+        while(symbolPlayer2.length()!=1||symbolPlayer2.equals(symbolPlayer1)){
+            if(symbolPlayer2.length()!=1)System.out.print("The symbol must be 1 character long\nEnter another symbol: ");
+            else System.out.print("Symbol must be different than "+playerName1+"'s symbol\nEnter another symbol: ");
+            symbolPlayer2 = s.nextLine();
+        }
+    }
+    public static String[] getSymbol(){
+        return new String[] {symbolPlayer1, symbolPlayer2};
+    }
+    public static String winnerToName(BigBoard b){
+        if(b.getWinner()==1) return playerName1;
+        else return playerName2;
+    }
+  
 }

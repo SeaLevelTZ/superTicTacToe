@@ -46,7 +46,7 @@ public class BigBoard {
         if(count==9){ draw = true; finished = true;}
     }
     public static void printBoard(BigBoard b){//need to make this print one line at a time
-       System.out.println("  Current board:");
+       System.out.println("\n  Current board:");
         for(int c = 0; c < b.largeBoard.length; c++) {
             for(int i = 0; i<3;i++){
                 System.out.println();
@@ -58,7 +58,7 @@ public class BigBoard {
             System.out.println();
             for(int e = 0;e<3;e++){
                 if(b.getBoard(c,e).getWinner()!=0)
-                System.out.print("W: "+b.getBoard(c,e).getWinner()+"    ");
+                System.out.print("W: "+b.getBoard(c,e).getWonString()+"    ");
                 else
                 System.out.print("        ");
             }

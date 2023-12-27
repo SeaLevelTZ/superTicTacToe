@@ -3,6 +3,7 @@ public class Board{
     private boolean isTaken;
     private boolean full;
     private int wonBy;
+    private String wonByString;
     public Board(){
         board = new int[3][3];
     }
@@ -27,6 +28,8 @@ public class Board{
                 isTaken = true;
                 wonBy = board[0][2];
         }
+        if(wonBy==1) wonByString = Main.getSymbol()[0];
+        else if(wonBy==2) wonByString = Main.getSymbol()[1];
         return(isTaken);
     }
     public boolean isFull(){
@@ -48,8 +51,8 @@ public class Board{
     public void printLine(int a, boolean b){
         int i=0;
         for( i = 0; i<3;i++){
-           if(board[a][i]==1) System.out.print("X");
-                else if (board[a][i]==2) System.out.print("O");
+           if(board[a][i]==1) System.out.print(Main.getSymbol()[0]);
+                else if (board[a][i]==2) System.out.print(Main.getSymbol()[1]);
                 else System.out.print("-"); 
         }
         if(b){
@@ -72,4 +75,8 @@ public class Board{
     public boolean getFull(){
         return full;
     }  
+    public String getWonString(){
+        return wonByString;
+    }
+    
 }
