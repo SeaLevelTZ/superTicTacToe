@@ -8,67 +8,71 @@ public class Main{
     private static String symbolPlayer1;
     private static String symbolPlayer2;
     public static void main(String[]args){
-Scanner scan = new Scanner(System.in);
-BigBoard board = new BigBoard();
-System.out.println("Welcome to SUPER Tic-Tac-Toe! To make a move, enter the coordinates of a corresponding square with a space in between.");
-System.out.println("The current small game you are in is indicated by arrows");
-System.out.println("The move you make in the small game indicates which small game the next player must play in.\n");
-System.out.println("The following example board shows the cooresponding coordinates to each square: \n");
+        Scanner scan = new Scanner(System.in);
+        BigBoard board = new BigBoard();
+        System.out.println("Welcome to SUPER Tic-Tac-Toe! To make a move, enter the coordinates of a corresponding square with a space in between.");
+        System.out.println("The current small game you are in is indicated by arrows");
+        System.out.println("The move you make in the small game indicates which small game the next player must play in.\n");
+        System.out.println("The following example board shows the cooresponding coordinates to each square: \n");
 
-for(int i = 1; i<4; i++){
-    for(int x = 1; x<4;x++){
-        System.out.print("("+i+","+x+")"+" ");
-    }
-    System.out.println("\n");
-}
-System.out.println("Have fun!");
-setNames(scan);
-BigBoard.printBoard(board);
-while(board.returnFinished()==false){
-    move(scan, board);
-    BigBoard.printBoard(board);
-    board.isWon();
-    board.isDraw();
-    changeTurn();
+        for(int i = 1; i<4; i++){
+            for(int x = 1; x<4;x++){
+                System.out.print("("+i+","+x+")"+" ");
+            }
+            System.out.println("\n");
+        }
+        System.out.println("Have fun!\n");
+        setNames(scan);
+        BigBoard.printBoard(board);
+        while(board.returnFinished()==false){
+            move(scan, board);
+            board.isWon();
+            board.isDraw();
+            changeTurn();
 
-}
-if(board.getDraw()) System.out.println("Its a draw :(");
-else System.out.println(winnerToName(board) + " wins!!!");
-System.out.println("Come back later for improvements to the game!");
-    }
+        }
+        if(board.getDraw()) System.out.println("Its a draw :(");
+        else System.out.println(winnerToName(board) + " wins!!!");
+        System.out.println("Come back later for improvements to the game!");
+            }
     public static void move(Scanner s,BigBoard bo){
-        while(bo.getBoard(coord1, coord2).getFull()){
-    coord1 = (int)Math.random()*3;
-    coord2 = (int)Math.random()*3;
-   }
-   System.out.println();
-   System.out.println("Playing in board "+ (coord2+1)+", "+(coord1+1));
-   if(playerState==1) System.out.print(playerName1 +", pick a spot: ");
-   else System.out.print(playerName2 +", pick a spot: ");
-   int[] play = takeNum(s);
-   int a = play[0];
-   int b = play[1];
-   
-   int [][] tempArray = bo.getBoard(coord1, coord2).getSmallArray();
-   while(a<0||a>2||b>2||b<0||tempArray[b][a]!=0){
-    if(a>2||a<0||b>2||b<0){
-        System.out.print("ArrayIndexOut...Just kidding\nEnter 2 valid coordinates between 1 and 3: ");
-        play = takeNum(s);
-        a = play[0];
-        b = play[1];
-    }
-    else if(tempArray[b][a]!=0){
-        System.out.print("Spot already taken \nPick another spot: ");
-        play = takeNum(s);
-        a = play[0];
-        b = play[1];
-    }
-    }
-    tempArray[b][a] = playerState;
-    bo.getBoard(coord1,coord2).isWon();
-    bo.getBoard(coord1, coord2).isFull();
-    coord1 = b;
-    coord2 = a;
+       
+        System.out.println();
+        System.out.println("Playing in board "+ (coord2+1)+", "+(coord1+1));
+        if(playerState==1) System.out.print(playerName1 +", pick a spot: ");
+        else System.out.print(playerName2 +", pick a spot: ");
+        int[] play = takeNum(s);
+        int a = play[0];
+        int b = play[1];
+        
+        int [][] tempArray = bo.getBoard(coord1, coord2).getSmallArray();
+        while(a<0||a>2||b>2||b<0||tempArray[b][a]!=0){
+            if(a>2||a<0||b>2||b<0){
+                System.out.print("ArrayIndexOut...Just kidding\nEnter 2 valid coordinates between 1 and 3: ");
+                play = takeNum(s);
+                a = play[0];
+                b = play[1];
+            }
+            else if(tempArray[b][a]!=0){
+                System.out.print("Spot already taken \nPick another spot: ");
+                play = takeNum(s);
+                a = play[0];
+                b = play[1];
+            }
+        }
+        tempArray[b][a] = playerState;
+        if(bo.getBoard(coord1,coord2).isWon()==false){
+            bo.getBoard(coord1,coord2).isWon();
+        }
+        bo.getBoard(coord1, coord2).isFull();
+        coord1 = b;
+        coord2 = a;
+        while(bo.getBoard(coord1, coord2).getFull()){//maybe make it so player can choose
+            coord1 = (int)(Math.random()*3);
+            coord2 = (int)(Math.random()*3);
+            System.out.println("Board full, randomizing board");
+        }
+        BigBoard.printBoard(bo);
     }
     public static void changeTurn(){
         if(playerState == 1) playerState = 2;
