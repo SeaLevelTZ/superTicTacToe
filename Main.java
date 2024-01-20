@@ -17,7 +17,7 @@ public class Main{
 
         for(int i = 1; i<4; i++){
             for(int x = 1; x<4;x++){
-                System.out.print("("+i+","+x+")"+" ");
+                System.out.print("("+x+","+i+")"+" ");
             }
             System.out.println("\n");
         }
@@ -35,7 +35,7 @@ public class Main{
         else System.out.println(winnerToName(board) + " wins!!!");
         System.out.println("Come back later for improvements to the game!");
             }
-    public static void move(Scanner s,BigBoard bo){
+    private static void move(Scanner s,BigBoard bo){
        
         System.out.println();
         System.out.println("Playing in board "+ (coord2+1)+", "+(coord1+1));
@@ -74,11 +74,11 @@ public class Main{
         }
         BigBoard.printBoard(bo);
     }
-    public static void changeTurn(){
+    private static void changeTurn(){
         if(playerState == 1) playerState = 2;
         else if(playerState ==2) playerState = 1;
     }
-    public static int[] takeNum(Scanner s){
+    private static int[] takeNum(Scanner s){
         String i = enterString(s);
         String a1 = i.substring(0,1);
         String b1 = i.substring(2,3);
@@ -97,7 +97,7 @@ public class Main{
     private static boolean isNumeric(String str){
         return str != null && str.matches("[0-9.]+");
     }
-    public static String enterString(Scanner s){//necessary to prevent error after entering 3 digit string followed by 1 digit string
+    private static String enterString(Scanner s){//necessary to prevent error after entering 3 digit string followed by 1 digit string
         String i = s.nextLine();
         while(i.length()<3){
             System.out.print("Invalid character. \nEnter 2 integers between 1 and 3: ");
@@ -108,7 +108,7 @@ public class Main{
     public static int[] getCurrentBoard(){
         return new int[] {coord1,coord2};
     }
-    public static void setNames(Scanner s){
+    private static void setNames(Scanner s){
         System.out.print("Player 1, enter your name: ");
         playerName1 = s.nextLine();
         System.out.print("Player 1, enter the symbol for use on the board (eg. X or O): ");
@@ -130,7 +130,7 @@ public class Main{
     public static String[] getSymbol(){
         return new String[] {symbolPlayer1, symbolPlayer2};
     }
-    public static String winnerToName(BigBoard b){
+    private static String winnerToName(BigBoard b){
         if(b.getWinner()==1) return playerName1;
         else return playerName2;
     }
