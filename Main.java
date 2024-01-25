@@ -118,7 +118,14 @@ public class Main{
             symbolPlayer1 = s.nextLine();
         }
         System.out.print("Player 2, enter your name: ");
+        
         playerName2 = s.nextLine();
+        while(playerName2.equals(playerName1)){
+            System.out.println("Name must be different than Player 1's name. ");
+        System.out.print("Player 2, enter your name: ");
+        playerName2 = s.nextLine();
+            
+        }
          System.out.print("Player 2, enter the symbol for use on the board (eg. X or O): ");
         symbolPlayer2 = s.nextLine();
         while(symbolPlayer2.length()!=1||symbolPlayer2.equals(symbolPlayer1)){
