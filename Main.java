@@ -35,7 +35,7 @@ public class Main{
         else System.out.println(winnerToName(board) + " wins!!!");
         System.out.println("Come back later for improvements to the game!");
             }
-    private static void move(Scanner s,BigBoard bo){
+    private static void move(Scanner s, BigBoard bo){
        
         System.out.println();
         System.out.println("Playing in board "+ (coord2+1)+", "+(coord1+1));
@@ -61,7 +61,7 @@ public class Main{
             }
         }
         tempArray[b][a] = playerState;
-        if(bo.getBoard(coord1,coord2).isWon()==false){
+        if(!bo.getBoard(coord1,coord2).getIsWon()){//not working, still allows stealing
             bo.getBoard(coord1,coord2).isWon();
         }
         bo.getBoard(coord1, coord2).isFull();
@@ -70,7 +70,7 @@ public class Main{
         while(bo.getBoard(coord1, coord2).getFull()){//maybe make it so player can choose
             coord1 = (int)(Math.random()*3);
             coord2 = (int)(Math.random()*3);
-            System.out.println("Board full, randomizing board");
+            System.out.println("Board full, randomizing board...");
         }
         BigBoard.printBoard(bo);
     }

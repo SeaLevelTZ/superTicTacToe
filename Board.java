@@ -7,7 +7,7 @@ public class Board{
     public Board(){
         board = new int[3][3];
     }
-    public boolean isWon(){
+    public void isWon(){
         for(int i= 0;i<board.length;i++){//now works I think but breaks for board stealing
             if(board[i][0]!=0&&board[i][0]==board[i][1]&&board[i][1]==board[i][2]){
                 isTaken = true;
@@ -30,8 +30,8 @@ public class Board{
         }
         if(wonBy==1) wonByString = Main.getSymbol()[0];
         else if(wonBy==2) wonByString = Main.getSymbol()[1];
-        return(isTaken);
     }
+    
     public boolean isFull(){
         int count = 0;
         for(int c = 0; c < board[0].length; c++) {
@@ -62,10 +62,6 @@ public class Board{
             System.out.print("     ");
         }
     }
-    /*public boolean getTaken(int a, int b){//checks if spot is taken
-        if(this.board[b][a]!=0) return false;
-        else return true;
-    } */
     public int[][] getSmallArray(){
         return board;
     }
@@ -77,6 +73,9 @@ public class Board{
     }  
     public String getWonString(){
         return wonByString;
+    }
+    public boolean getIsWon(){
+        return isTaken;
     }
     
 }

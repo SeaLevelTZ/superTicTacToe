@@ -14,24 +14,24 @@ public class BigBoard {
     
     }
     
-    public void isWon(){//issue hopefully fixed needs testing
+    public void isWon(){//doesn't cause board stealing anymore!
         for(int i= 0;i<largeBoard.length;i++){
-            if(largeBoard[i][0].isWon()==true&&largeBoard[i][1].isWon()==true&&largeBoard[i][2].isWon()==true&&largeBoard[i][0].getWinner()==largeBoard[i][1].getWinner()&&largeBoard[i][1].getWinner()==largeBoard[i][2].getWinner()){
+            if(largeBoard[i][0].getIsWon()==true&&largeBoard[i][1].getIsWon()==true&&largeBoard[i][2].getIsWon()==true&&largeBoard[i][0].getWinner()==largeBoard[i][1].getWinner()&&largeBoard[i][1].getWinner()==largeBoard[i][2].getWinner()){
                 finished = true;
                 winner = largeBoard[i][0].getWinner();
             }
         }
         for(int i = 0;i<largeBoard.length;i++){
-            if(largeBoard[0][i].isWon()==true&&largeBoard[1][i].isWon()==true&&largeBoard[2][i].isWon()==true&&largeBoard[0][i].getWinner()==largeBoard[1][i].getWinner()&&largeBoard[1][i].getWinner()==largeBoard[2][i].getWinner()){
+            if(largeBoard[0][i].getIsWon()==true&&largeBoard[1][i].getIsWon()==true&&largeBoard[2][i].getIsWon()==true&&largeBoard[0][i].getWinner()==largeBoard[1][i].getWinner()&&largeBoard[1][i].getWinner()==largeBoard[2][i].getWinner()){
                 finished = true;
                 winner = largeBoard[0][i].getWinner();
             }
         }
-        if(largeBoard[0][0].isWon()==true&&largeBoard[1][1].isWon()==true&&largeBoard[2][2].isWon()==true&&largeBoard[0][0].getWinner()==largeBoard[1][1].getWinner()&&largeBoard[1][1].getWinner()==largeBoard[2][2].getWinner()){
+        if(largeBoard[0][0].getIsWon()==true&&largeBoard[1][1].getIsWon()==true&&largeBoard[2][2].getIsWon()==true&&largeBoard[0][0].getWinner()==largeBoard[1][1].getWinner()&&largeBoard[1][1].getWinner()==largeBoard[2][2].getWinner()){
             finished = true;
             winner = largeBoard[0][0].getWinner();
         }
-        if(largeBoard[0][2].isWon()==true&&largeBoard[1][1].isWon()==true&&largeBoard[2][0].isWon()==true&&largeBoard[0][2].getWinner()==largeBoard[1][1].getWinner()&&largeBoard[1][1].getWinner()==largeBoard[2][0].getWinner()){
+        if(largeBoard[0][2].getIsWon()==true&&largeBoard[1][1].getIsWon()==true&&largeBoard[2][0].getIsWon()==true&&largeBoard[0][2].getWinner()==largeBoard[1][1].getWinner()&&largeBoard[1][1].getWinner()==largeBoard[2][0].getWinner()){
                 finished = true;
                 winner = largeBoard[0][2].getWinner();
         }
