@@ -7,27 +7,46 @@ public class Main{
     public static String playerName2;
     private static String symbolPlayer1;
     private static String symbolPlayer2;
+    private static boolean isRandomied;
+    public static boolean isAgainstRandom;
     public static void main(String[]args){
         Scanner scan = new Scanner(System.in);
         BigBoard board = new BigBoard();
-        System.out.println("Welcome to SUPER Tic-Tac-Toe! To make a move, enter the coordinates of a corresponding square with a space in between.");
-        System.out.println("The current small game you are in is indicated by arrows");
-        System.out.println("The move you make in the small game indicates which small game the next player must play in.\n");
-        System.out.println("The following example board shows the cooresponding coordinates to each square: \n");
-
-        for(int i = 1; i<4; i++){
-            for(int x = 1; x<4;x++){
-                System.out.print("("+x+","+i+")"+" ");
-            }
-            System.out.println("\n");
+        isRandomied = false;
+        isAgainstRandom = false;
+        System.out.print("Enter r to play a game with random inputs from both players. Enter R to play against a randomized bot. Otherwise press enter: ");
+        String temp = scan.nextLine();
+        playerName1 = "player1";
+        playerName2 = "player2";
+        symbolPlayer1 = "X";
+        symbolPlayer2 = "O";
+        if(temp.equals("r")){
+            isRandomied = true;
         }
-        System.out.println("Have fun!\n");
-        setNames(scan);
+        else if(temp.equals("R")){
+            isAgainstRandom = true;
+            playerName2 = "Random";
+        }
+        if(!isRandomied){
+            System.out.println("Welcome to SUPER Tic-Tac-Toe! To make a move, enter the coordinates of a corresponding square with a space in between.");
+            System.out.println("The current small game you are in is indicated by arrows");
+            System.out.println("The move you make in the small game indicates which small game the next player must play in.\n");
+            System.out.println("The following example board shows the cooresponding coordinates to each square: \n");
+
+            for(int i = 1; i<4; i++){
+                for(int x = 1; x<4;x++){
+                    System.out.print("("+x+","+i+")"+" ");
+                }
+                System.out.println("\n");
+            }
+            System.out.println("Have fun!\n");
+            setNames(scan);
+        }
+        
         BigBoard.printBoard(board);
         while(board.returnFinished()==false){
             move(scan, board);
             board.isWon();
-            board.isDraw();
             changeTurn();
 
         }
@@ -54,7 +73,7 @@ public class Main{
                 b = play[1];
             }
             else if(tempArray[b][a]!=0){
-                System.out.print("Spot already taken \nPick another spot: ");
+                System.out.println("Spot already taken \nPick another spot: ");
                 play = takeNum(s);
                 a = play[0];
                 b = play[1];
@@ -67,11 +86,8 @@ public class Main{
         bo.getBoard(coord1, coord2).isFull();
         coord1 = b;
         coord2 = a;
-        while(bo.getBoard(coord1, coord2).getFull()){//maybe make it so player can choose
-            coord1 = (int)(Math.random()*3);
-            coord2 = (int)(Math.random()*3);
-            System.out.println("Board full, randomizing board...");
-        }
+        randomizeBoard(bo);
+        
         BigBoard.printBoard(bo);
     }
     private static void changeTurn(){
@@ -79,6 +95,12 @@ public class Main{
         else if(playerState ==2) playerState = 1;
     }
     private static int[] takeNum(Scanner s){
+        if(isRandomied){
+            return new int[]{(int)(Math.random()*3),(int)(Math.random()*3)};
+        }
+        if(isAgainstRandom&&playerState==2){
+            return new int[]{(int)(Math.random()*3),(int)(Math.random()*3)};
+        }
         String i = enterString(s);
         String a1 = i.substring(0,1);
         String b1 = i.substring(2,3);
@@ -117,21 +139,23 @@ public class Main{
             System.out.print("The symbol must be 1 character long\nEnter another symbol: ");
             symbolPlayer1 = s.nextLine();
         }
-        System.out.print("Player 2, enter your name: ");
-        
-        playerName2 = s.nextLine();
-        while(playerName2.equals(playerName1)){
-            System.out.println("Name must be different than Player 1's name. ");
-        System.out.print("Player 2, enter your name: ");
-        playerName2 = s.nextLine();
+        if(!isAgainstRandom){
+            System.out.print("Player 2, enter your name: ");
             
-        }
-         System.out.print("Player 2, enter the symbol for use on the board (eg. X or O): ");
-        symbolPlayer2 = s.nextLine();
-        while(symbolPlayer2.length()!=1||symbolPlayer2.equals(symbolPlayer1)){
-            if(symbolPlayer2.length()!=1)System.out.print("The symbol must be 1 character long\nEnter another symbol: ");
-            else System.out.print("Symbol must be different than "+playerName1+"'s symbol\nEnter another symbol: ");
+            playerName2 = s.nextLine();
+            while(playerName2.equals(playerName1)){
+                System.out.println("Name must be different than Player 1's name. ");
+            System.out.print("Player 2, enter your name: ");
+            playerName2 = s.nextLine();
+                
+            }
+            System.out.print("Player 2, enter the symbol for use on the board (eg. X or O): ");
             symbolPlayer2 = s.nextLine();
+            while(symbolPlayer2.length()!=1||symbolPlayer2.equals(symbolPlayer1)){
+                if(symbolPlayer2.length()!=1)System.out.print("The symbol must be 1 character long\nEnter another symbol: ");
+                else System.out.print("Symbol must be different than "+playerName1+"'s symbol\nEnter another symbol: ");
+                symbolPlayer2 = s.nextLine();
+            }
         }
     }
     public static String[] getSymbol(){
@@ -141,5 +165,16 @@ public class Main{
         if(b.getWinner()==1) return playerName1;
         else return playerName2;
     }
-  
+    private static void randomizeBoard(BigBoard bo){
+        int randomizeCount = 0;
+        while(bo.getBoard(coord1, coord2).getFull()&&randomizeCount<=50){//maybe make it so player can choose
+            coord1 = (int)(Math.random()*3);
+            coord2 = (int)(Math.random()*3);
+            System.out.println("Board full, randomizing board...");
+            randomizeCount++;
+            if(randomizeCount==50){
+                bo.setFinished();
+            }
+        }
+    }
 }

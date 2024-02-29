@@ -36,15 +36,6 @@ public class BigBoard {
                 winner = largeBoard[0][2].getWinner();
         }
             }
-    public void isDraw(){
-         int count= 0;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if(largeBoard[i][j].getFull()==true) count++;
-            }
-        }
-        if(count==9){ draw = true; finished = true;}
-    }
     public static void printBoard(BigBoard b){//need to make this print one line at a time
        System.out.println("\n  Current board:");
         for(int c = 0; c < b.largeBoard.length; c++) {
@@ -77,6 +68,10 @@ public class BigBoard {
     }
     public int getWinner(){
         return winner;
+    }
+    public void setFinished(){
+        finished = true;
+        draw = true;
     }
    
 
