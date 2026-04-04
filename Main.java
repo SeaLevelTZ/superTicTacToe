@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.io.FileNotFoundException;
+
 public class Main{
     private static int playerState = 1;
     private static int coord1 = 1;
@@ -9,6 +11,7 @@ public class Main{
     private static String symbolPlayer2;
     private static boolean isRandomied;
     public static boolean isAgainstRandom;
+    public static boolean isSaved = false;
     public static void main(String[]args){
         Scanner scan = new Scanner(System.in);
         BigBoard board = new BigBoard();
@@ -32,6 +35,7 @@ public class Main{
             System.out.println("The current small game you are in is indicated by arrows");
             System.out.println("The move you make in the small game indicates which small game the next player must play in.\n");
             System.out.println("The following example board shows the cooresponding coordinates to each square: \n");
+            System.out.println("In order to save a game, type \"save\" and then the name of the save file");
 
             for(int i = 1; i<4; i++){
                 for(int x = 1; x<4;x++){
@@ -40,17 +44,35 @@ public class Main{
                 System.out.println("\n");
             }
             System.out.println("Have fun!\n");
-            setNames(scan);
+            System.out.print("Would you like to restore from a save (y/n): ");
+            if(scan.nextLine().equals("y")){
+                try{
+                    Save.restoreData(board);
+                }
+                catch(FileNotFoundException e){
+                    System.out.println("File not found. Exit game to try again or play new game");
+                    setNames(scan);
+                }
+            }
+            else{
+                setNames(scan);
+            }
+
         }
         
         BigBoard.printBoard(board);
-        while(board.returnFinished()==false){
+        while(board.returnFinished()==false&&!isSaved){
             move(scan, board);
             board.isWon();
-            changeTurn();
-
+            if(!isSaved){
+                changeTurn();
+            }
         }
         if(board.getDraw()) System.out.println("Its a draw :(");
+        else if(isSaved){
+        Save.writeData(board);
+        System.out.println("Game saved. See you next time!");
+        }
         else System.out.println(winnerToName(board) + " wins!!!");
         System.out.println("Come back later for improvements to the game!");
             }
@@ -61,6 +83,9 @@ public class Main{
         if(playerState==1) System.out.print(playerName1 +", pick a spot: ");
         else System.out.print(playerName2 +", pick a spot: ");
         int[] play = takeNum(s);
+        if(play[0]==4){
+            return;
+        }
         int a = play[0];
         int b = play[1];
         
@@ -69,12 +94,18 @@ public class Main{
             if(a>2||a<0||b>2||b<0){
                 System.out.print("ArrayIndexOut...Just kidding\nEnter 2 valid coordinates between 1 and 3: ");
                 play = takeNum(s);
+                if(play[0]==4){
+                    return;
+                }
                 a = play[0];
                 b = play[1];
             }
             else if(tempArray[b][a]!=0){
                 System.out.println("Spot already taken \nPick another spot: ");
                 play = takeNum(s);
+                if(play[0]==4){
+                    return;
+                }
                 a = play[0];
                 b = play[1];
             }
@@ -102,6 +133,9 @@ public class Main{
             return new int[]{(int)(Math.random()*3),(int)(Math.random()*3)};
         }
         String i = enterString(s);
+        if(i.equals("exit")){
+            return new int[] {4,4};
+        }
         String a1 = i.substring(0,1);
         String b1 = i.substring(2,3);
         int a = 0;
@@ -121,6 +155,10 @@ public class Main{
     }
     private static String enterString(Scanner s){//necessary to prevent error after entering 3 digit string followed by 1 digit string
         String i = s.nextLine();
+        if(i.equals("save")){
+            isSaved=true;
+            return "exit";
+        }
         while(i.length()<3){
             System.out.print("Invalid character. \nEnter 2 integers between 1 and 3: ");
              i = s.nextLine();
@@ -129,6 +167,10 @@ public class Main{
     }
     public static int[] getCurrentBoard(){
         return new int[] {coord1,coord2};
+    }
+    public static void setCurrentBoard(int[] coords){
+        coord1 = coords[0];
+        coord2 = coords[1];
     }
     private static void setNames(Scanner s){
         System.out.print("Player 1, enter your name: ");
@@ -161,6 +203,10 @@ public class Main{
     public static String[] getSymbol(){
         return new String[] {symbolPlayer1, symbolPlayer2};
     }
+    public static void setSymbol(String[] s){
+        symbolPlayer1 = s[0];
+        symbolPlayer2 = s[1];
+    }
     private static String winnerToName(BigBoard b){
         if(b.getWinner()==1) return playerName1;
         else return playerName2;
@@ -176,5 +222,14 @@ public class Main{
                 bo.setFinished();
             }
         }
+    }
+    public static int getPlayerState(){
+        return playerState;
+    }
+    public static void setPlayerState(int state){
+         playerState = state;
+    }
+    public static String[] getPlayerNames(){
+        return new String[] {playerName1, playerName2};
     }
 }
