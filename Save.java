@@ -42,7 +42,7 @@ public class Save{
 	public static void restoreData(BigBoard b) throws FileNotFoundException{ //restores save state
 		Scanner scan = new Scanner(System.in);
 			System.out.println("Available saves: ");
-			File folder = new File("/home/logan/Desktop/Coding/JavaCoding/superTicTacToe/saves");
+			File folder = new File("");
 			File[] list = folder.listFiles();
 			for(int i = 0;i<list.length;i++){
 				System.out.print(list[i].getName()+" ");
@@ -50,7 +50,7 @@ public class Save{
 			System.out.println();
 			System.out.print("Enter name of save: ");
 			String fileName = scan.nextLine();
-			File file = new File("/home/logan/Desktop/Coding/JavaCoding/superTicTacToe/saves",fileName);
+			File file = new File("",fileName);
 			Scanner reader = new Scanner(file);
 			String[] info = reader.nextLine().split("");
 			Main.setPlayerState(Integer.parseInt(info[0]));
