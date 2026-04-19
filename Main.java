@@ -35,7 +35,7 @@ public class Main{
             System.out.println("The current small game you are in is indicated by arrows");
             System.out.println("The move you make in the small game indicates which small game the next player must play in.\n");
             System.out.println("The following example board shows the cooresponding coordinates to each square: \n");
-            System.out.println("In order to save a game, type \"save\" and then the name of the save file");
+            System.out.println("In order to save a game, type \"save\" and then the name of the save");
 
             for(int i = 1; i<4; i++){
                 for(int x = 1; x<4;x++){
@@ -48,6 +48,13 @@ public class Main{
             if(scan.nextLine().equals("y")){
                 try{
                     Save.restoreData(board);
+                    board.isWon();
+                    for(int i = 0;i<3;i++){
+                        for(int j = 0;j<3;j++){
+                            board.getBoard(i,j).isWon();
+                        }
+                    }
+                    board.isWon();
                 }
                 catch(FileNotFoundException e){
                     System.out.println("File not found. Exit game to try again or play new game");
@@ -57,25 +64,32 @@ public class Main{
             else{
                 setNames(scan);
             }
+            if(!isRandomied){
+                BigBoard.printBoard(board);
+            }
 
+            while(board.returnFinished()==false&&!isSaved){
+                move(scan, board);
+                board.isWon();
+                if(!isSaved){
+                    changeTurn();
+                }
+            }
+            if(board.getDraw()) System.out.println("Its a draw :(");
+            else if(isSaved){
+                Save.writeData(board);
+                System.out.println("Game saved. See you next time!");
+            }
+            else System.out.println(winnerToName(board) + " wins!!!");
+                System.out.println("Come back later for improvements to the game!");
+
+            }
+        else{
+            test(scan);
         }
         
-        BigBoard.printBoard(board);
-        while(board.returnFinished()==false&&!isSaved){
-            move(scan, board);
-            board.isWon();
-            if(!isSaved){
-                changeTurn();
-            }
-        }
-        if(board.getDraw()) System.out.println("Its a draw :(");
-        else if(isSaved){
-        Save.writeData(board);
-        System.out.println("Game saved. See you next time!");
-        }
-        else System.out.println(winnerToName(board) + " wins!!!");
-        System.out.println("Come back later for improvements to the game!");
-            }
+
+    }
     private static void move(Scanner s, BigBoard bo){
        
         System.out.println();
@@ -118,8 +132,10 @@ public class Main{
         coord1 = b;
         coord2 = a;
         randomizeBoard(bo);
-        
-        BigBoard.printBoard(bo);
+        if(!isRandomied){
+            BigBoard.printBoard(bo);
+        }
+
     }
     private static void changeTurn(){
         if(playerState == 1) playerState = 2;
@@ -231,5 +247,46 @@ public class Main{
     }
     public static String[] getPlayerNames(){
         return new String[] {playerName1, playerName2};
+    }
+    public static int mainLoopTest(BigBoard board, int reps, Scanner scan){
+        while(board.returnFinished()==false){
+            move(scan, board);
+            board.isWon();
+            changeTurn();
+        }
+        if(board.getDraw()) return 2;
+        String winner = winnerToName(board);
+        if(winner.equals("player1")) return 0;
+        else return 1;
+    }
+    public static void test( Scanner scan){
+        System.out.print("How many repetitions?: \n");
+        int repetitions = Integer.parseInt(scan.nextLine());
+        int draws = 0;
+        int p1 = 0;
+        int p2 = 0;
+        for(int i = 0;i<repetitions;i++){
+            BigBoard b = new BigBoard();
+            int temp = mainLoopTest(b,repetitions,scan);
+            switch (temp){
+            case 0:
+                draws++;
+                break;
+            case 1:
+                p1++;
+                break;
+            case 2:
+                p2++;
+                break;
+            }
+            resetBoard();
+
+        }
+        System.out.println("Player 1 wins: "+p1+"\nPlayer 2 wins: "+p2 + "\nDraws: "+draws);
+    }
+    public static void resetBoard(){
+        playerState = 1;
+        coord1 =1;
+        coord2=1;
     }
 }
