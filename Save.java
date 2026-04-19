@@ -76,6 +76,7 @@ public class Save{
 				}
 			}
 			reader.close();
+			scan.close();
 			System.out.println("Game restored!");
 	}
 }
